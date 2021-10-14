@@ -12,6 +12,7 @@ require (
 	github.com/open-cluster-management/hub-of-hubs-data-types/apis/config v0.1.0
 	github.com/openshift/hive/apis v0.0.0-20211007185043-b7a5ebc4b7cc
 	golang.org/x/tools v0.1.5 // indirect
+	k8s.io/api v0.20.5
 	k8s.io/apimachinery v0.20.5
 	k8s.io/client-go v12.0.0+incompatible
 	sigs.k8s.io/controller-runtime v0.6.2

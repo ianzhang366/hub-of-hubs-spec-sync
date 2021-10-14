@@ -45,6 +45,7 @@ func AddControllers(mgr ctrl.Manager, dbConnectionPool *pgxpool.Pool) error {
 		addPolicyController, addPlacementRuleController,
 		addPlacementBindingController, addHubOfHubsConfigController,
 		addClusterDeploymentController,
+		addSecretController,
 	}
 
 	for _, addControllerFunction := range addControllerFunctions {

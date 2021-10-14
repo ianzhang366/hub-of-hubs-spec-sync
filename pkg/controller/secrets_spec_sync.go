@@ -8,54 +8,35 @@ import (
 	"reflect"
 
 	"github.com/jackc/pgx/v4/pgxpool"
-	datatypes "github.com/open-cluster-management/hub-of-hubs-data-types"
 	corev1 "k8s.io/api/core/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
-	"sigs.k8s.io/controller-runtime/pkg/event"
 	"sigs.k8s.io/controller-runtime/pkg/predicate"
 )
 
+const (
+	hohClcNamespace     = "hoh-system-clc"
+	hohSecretAnnotation = "hub-of-hubs.open-cluster-management.io/secret"
+	componentName       = "secrets"
+)
+
 var (
-	logger        = ctrl.Log.WithName("secret-spec-syncer")
-	componentName = "secrets"
-
-	secretPredicates = predicate.Funcs{
-		UpdateFunc: func(e event.UpdateEvent) bool {
-			// The object doesn't contain label "foo", so the event will be
-			// ignored.
-			if _, ok := e.MetaOld.GetAnnotations()[datatypes.HohSecretAnnotation]; !ok {
-				return false
-			}
-			return true
-		},
-
-		CreateFunc: func(e event.CreateEvent) bool {
-			if _, ok := e.Meta.GetAnnotations()[datatypes.HohSecretAnnotation]; !ok {
-				return false
-			}
-			return true
-		},
-
-		DeleteFunc: func(e event.DeleteEvent) bool {
-			if _, ok := e.Meta.GetAnnotations()[datatypes.HohSecretAnnotation]; !ok {
-				return false
-			}
-			return true
-		},
-	}
+	logger = ctrl.Log.WithName("secret-spec-syncer")
 )
 
 func addSecretController(mgr ctrl.Manager, databaseConnectionPool *pgxpool.Pool) error {
-
 	err := ctrl.NewControllerManagedBy(mgr).
 		For(&corev1.Secret{}).
-		WithEventFilter(secretPredicates).
+		WithEventFilter(predicate.NewPredicateFuncs(func(meta metav1.Object, object runtime.Object) bool {
+			return meta.GetNamespace() == hohClcNamespace
+		})).
 		Complete(&genericSpecToDBReconciler{
 			client:                 mgr.GetClient(),
 			databaseConnectionPool: databaseConnectionPool,
 			log:                    logger,
 			tableName:              componentName,
-			finalizerName:          fmt.Sprintf("%s-cleanup", datatypes.HohSecretAnnotation),
+			finalizerName:          fmt.Sprintf("%s-cleanup", hohSecretAnnotation),
 			createInstance:         func() object { return &corev1.Secret{} },
 			cleanStatus:            cleanSecretStatus,
 			areEqual:               areSecretsEqual,

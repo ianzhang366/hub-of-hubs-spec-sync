@@ -18,11 +18,11 @@ import (
 const (
 	hohClcNamespace     = "hoh-system-clc"
 	hohSecretAnnotation = "hub-of-hubs.open-cluster-management.io/secret"
-	componentName       = "secrets"
+	componentSecret     = "secrets"
 )
 
 var (
-	logger = ctrl.Log.WithName("secret-spec-syncer")
+	secretLogger = ctrl.Log.WithName("secret-spec-syncer")
 )
 
 func addSecretController(mgr ctrl.Manager, databaseConnectionPool *pgxpool.Pool) error {
@@ -34,15 +34,15 @@ func addSecretController(mgr ctrl.Manager, databaseConnectionPool *pgxpool.Pool)
 		Complete(&genericSpecToDBReconciler{
 			client:                 mgr.GetClient(),
 			databaseConnectionPool: databaseConnectionPool,
-			log:                    logger,
-			tableName:              componentName,
+			log:                    secretLogger,
+			tableName:              componentSecret,
 			finalizerName:          fmt.Sprintf("%s-cleanup", hohSecretAnnotation),
 			createInstance:         func() object { return &corev1.Secret{} },
 			cleanStatus:            cleanSecretStatus,
 			areEqual:               areSecretsEqual,
 		})
 	if err != nil {
-		return fmt.Errorf("failed to add %sController to the manager: %w", componentName, err)
+		return fmt.Errorf("failed to add %sController to the manager: %w", componentSecret, err)
 	}
 
 	return nil

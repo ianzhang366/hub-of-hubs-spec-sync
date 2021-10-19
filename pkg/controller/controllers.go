@@ -10,7 +10,8 @@ import (
 	appsv1 "github.com/open-cluster-management/governance-policy-propagator/pkg/apis/apps/v1"
 	policiesv1 "github.com/open-cluster-management/governance-policy-propagator/pkg/apis/policy/v1"
 	configv1 "github.com/open-cluster-management/hub-of-hubs-data-types/apis/config/v1"
-	cdv1 "github.com/openshift/hive/apis/hive/v1"
+	agentv1 "github.com/open-cluster-management/klusterlet-addon-controller/pkg/apis/agent/v1"
+	hivev1 "github.com/openshift/hive/apis/hive/v1"
 	hive "github.com/openshift/hive/apis/scheme"
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -20,9 +21,9 @@ import (
 // AddToScheme adds all the resources to be processed to the Scheme.
 func AddToScheme(s *runtime.Scheme) error {
 	//  &scheme.Builder{GroupVersion: cdv1.SchemeGroupVersion}
-	schemeBuilders := []*scheme.Builder{policiesv1.SchemeBuilder, appsv1.SchemeBuilder, configv1.SchemeBuilder}
+	schemeBuilders := []*scheme.Builder{policiesv1.SchemeBuilder, appsv1.SchemeBuilder, configv1.SchemeBuilder, agentv1.SchemeBuilder}
 
-	ocpSchemeBuilders := []*hive.Builder{cdv1.SchemeBuilder}
+	ocpSchemeBuilders := []*hive.Builder{hivev1.SchemeBuilder}
 
 	for _, schemeBuilder := range schemeBuilders {
 		if err := schemeBuilder.AddToScheme(s); err != nil {
@@ -46,6 +47,8 @@ func AddControllers(mgr ctrl.Manager, dbConnectionPool *pgxpool.Pool) error {
 		addPlacementBindingController, addHubOfHubsConfigController,
 		addClusterDeploymentController,
 		addSecretController,
+		addMachinepoolController,
+		addKlusterletaddonconfigController,
 	}
 
 	for _, addControllerFunction := range addControllerFunctions {

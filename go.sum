@@ -2797,8 +2797,8 @@ k8s.io/cli-runtime v0.19.0/go.mod h1:tun9l0eUklT8IHIM0jors17KmUjcrAxn0myoBYwuNuo
 k8s.io/cli-runtime v0.19.1/go.mod h1:X6g8e4NBiG8GMsKewXsRpo36MO6xrvXa+0wCg7zO4aU=
 k8s.io/cli-runtime v0.20.0/go.mod h1:C5tewU1SC1t09D7pmkk83FT4lMAw+bvMDuRxA7f0t2s=
 k8s.io/cli-runtime v0.21.2/go.mod h1:8u/jFcM0QpoI28f6sfrAAIslLCXUYKD5SsPPMWiHYrI=
-k8s.io/client-go v0.20.4 h1:85crgh1IotNkLpKYKZHVNI1JT86nr/iDCvq2iWKsql4=
-k8s.io/client-go v0.20.4/go.mod h1:LiMv25ND1gLUdBeYxBIwKpkSC5IsozMMmOOeSJboP+k=
+k8s.io/client-go v0.20.5 h1:dJGtYUvFrFGjQ+GjXEIby0gZWdlAOc0xJBJqY3VyDxA=
+k8s.io/client-go v0.20.5/go.mod h1:Ee5OOMMYvlH8FCZhDsacjMlCBwetbGZETwo1OA+e6Zw=
 k8s.io/cluster-bootstrap v0.0.0-20190202014938-c9acc0c1bea2/go.mod h1:iBSm2nwo3OaiuW8VDvc3ySDXK5SKfUrxwPvBloKG7zg=
 k8s.io/cluster-registry v0.0.6/go.mod h1:/F+o1rvzjBdLbg782rR8eKrOb20hPy7us+Zu/pjBtAY=
 k8s.io/code-generator v0.0.0-20181114232248-ae218e241252/go.mod h1:IPqxl/YHk05nodzupwjke6ctMjyNRdV2zZ5/j3/F204=

@@ -26,7 +26,7 @@ replace (
 	github.com/terraform-providers/terraform-provider-ignition/v2 => github.com/community-terraform-providers/terraform-provider-ignition/v2 v2.1.0
 	// need this for klusterletaddonconfig
 	k8s.io/api => k8s.io/api v0.20.4
-	k8s.io/client-go => k8s.io/client-go v0.20.4
+	k8s.io/client-go => k8s.io/client-go v0.20.5
 
 	kubevirt.io/client-go => kubevirt.io/client-go v0.29.0
 
